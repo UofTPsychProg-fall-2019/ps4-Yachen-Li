@@ -1,6 +1,61 @@
-    Participants will be randomly assigned to awe, amusement and neutral condition and complete a visual perspective taking task. The task comprises of 4 blocks of 25 experimental trials with a total of 100 trials. Participants will watch emotion induction videos consistent with the condition they are assigned to at the beginning of the first block and between. Each block contains five types of stimuli with pseudo-randomized order (consistent self, consistent other, inconsistent self, inconsistent other and filler trials with only the avatar in the room). Each stimulus shows a picture of a cartoon avatar in a room painted with varying number of dots. For consistent trials, the number of dots in front of the avatar is identical to the number of dots in front of the participant. For inconsistent trials, the avatar could not see some of the dots that are visible to the participants. For “Self” trials, participants will verify whether the number appeared matches the number of dots visible to themselves. For “Other” trials, participants will verify whether the number appeared matches the number of dots visible to the avatar. In total, every condition will appear in 25 trials. Upon seeing the picture of the avatar, participants will have 2000ms to respond YES or NO using keyboard E or I. At the beginning of the task, participants will complete 10 practice trials to ensure they understand the instructions.
-    The trial sequence will be: 1) a fixation cross signals the start of the trial (500ms); 2) a cue (You vs. He/She) indicating whose perspective to report from (self vs. avatar); 3) a number indicating the numbers of dots to verify(750ms); 4) a blank interstimulus interval (500ms); 5) a picture of the avatar in the room (2000ms) where participants must indicate whether the number cued matches the number of dots shown from the cued perspective. I will record reaction time and response accuracy for each trial. 
+       Participants will be randomly assigned to awe, amusement and neutral condition and complete a visual perspective taking
+    task. The task comprises of 4 blocks of 25 experimental trials with a total of 100 trials. Participants will watch emotion
+    induction videos consistent with the condition they are assigned to at the beginning of the first block and in between each
+    block. Each block contains five types of stimuli with randomized order (consistent self, consistent other, inconsistent self, 
+    inconsistent other and filler trials with only the avatar in the room). Each stimulus shows a picture of a cartoon avatar
+    in a room painted with varying number of dots. For consistent trials, the number of dots in front of the avatar is 
+    identical to the number of dots in front of the participant. For inconsistent trials, the avatar could not see some of 
+    the dots that are visible to the participants. For “Self” trials, participants will verify whether the number appeared 
+    matches the number of dots visible to themselves. For “Other” trials, participants will verify whether the number appeared 
+    matches the number of dots visible to the avatar. In total, every condition will appear in 25 trials. Upon seeing the 
+    picture of the avatar, participants will have 2000ms to respond YES or NO using keyboard A or L. At the beginning of the
+    task, participants will complete 10 practice trials to ensure they understand the instructions.
+        The trial sequence will be: 1) a fixation cross signals the start of the trial (500ms); 2) a cue (You vs. He/She)
+    indicating whose perspective to report from (self vs. avatar, 750ms); 3) a number indicating the numbers of dots to
+    verify(750ms); 4) a blank interstimulus interval (500ms); 5) a picture of the avatar in the room (2000ms) where
+    participants must indicate whether the number cued matches the number of dots shown from the cued perspective. 
+    I will record reaction time and response accuracy for each trial. 
+
+# Assigning participants to one of the 6 conditions, import stimuli folder consistent with condition
+
+Condition = (RA_input) 
+
+if Condition = 1 or 4,
+    video = import(awe)
+elif Condition = 2 or 5, 
+    video = import(amusement)
+else, 
+    video = import(neutral)
+
     
-    
-Condition = Input () # 1 to 6
-if 
+if Condition < 4
+    stimulus = read.folder (Male_avatar),
+                cue_1 = “YOU”
+	    cue_2 = “HE”
+else, 
+    stimulus = read.folder (Female_avatar)
+                cue_1 = “YOU”
+	    cue_2 = “SHE”
+
+# Running four blocks of 25 stimuli, randomize each type and allow repeated sampling.
+
+while i in [1,2,3,4],
+    stimulus_block = shuffle[random_repeat(stimulus$consistent) x 12, random_repeat(stimulus$inconsistent) x 12,
+    random_repeat(stimulus$filler) x 1]
+
+#play one video before each of the four blocks
+    play(video$i)
+    trial = []
+    response = []
+    reaction_time = []
+    data = dataframe[response, reaction_time]
+
+# data collection for each trial
+    for picture in stimulus_block,
+    num_self = picture$ #self_dot
+    num_other = picture$ #other_dot
+    trial = [fixation cross, random (cue1, cue2), random(num_self, num_other), blank_stimulus, picture]
+    time(trial) = [500ms, 750ms, 750ms, 500ms, 2000ms]
+    response_key = [A = YES, L = NO]
+    response.append[input]
+    reaction_time.append[reaction time]
